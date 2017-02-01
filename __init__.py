@@ -5,6 +5,7 @@ from trytond.pool import Pool
 from .party import *
 from .address import *
 from .configuration import *
+from .company import *
 
 def register():
     Pool.register(

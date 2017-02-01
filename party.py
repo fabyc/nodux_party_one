@@ -7,7 +7,7 @@ from trytond.pyson import Eval
 from trytond.pyson import Id
 from trytond.pyson import Bool, Eval
 
-__all__ = ['Party', 'Company']
+__all__ = ['Party']
 __metaclass__ = PoolMeta
 
 class Party:
@@ -182,16 +182,3 @@ class Party:
             else:
                 value = 10 - (x % 10)
             return (set_check_digit == str(value))
-
-class Company:
-    __name__ = 'company.company'
-
-    @classmethod
-    def default_currency(cls):
-        Currency = Pool().get('currency.currency')
-        usd= Currency.search([('code','=','USD')])
-        return usd[0].id
-
-    @staticmethod
-    def default_timezone():
-        return 'America/Guayaquil'
