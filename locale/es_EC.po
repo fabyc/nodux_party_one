@@ -1,0 +1,51 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:party.party:"
+msgid "Invalid VAT Number \"%s\"."
+msgstr "Número de C.I./RUC \"%s\" no es válido."
+
+msgctxt "error:party.party:"
+msgid "VAT Number already exists!"
+msgstr "¡Número de C.I./RUC ya existe!"
+
+msgctxt "field:party.party,commercial_name:"
+msgid "Commercial Name"
+msgstr "Nombre Comercial"
+
+msgctxt "field:party.party,customer:"
+msgid "Customer"
+msgstr "Cliente"
+
+msgctxt "field:party.party,supplier:"
+msgid "Supplier"
+msgstr "Proveedor"
+
+msgctxt "field:party.party,type_document:"
+msgid "Type Document"
+msgstr "Tipo de documento"
+
+msgctxt "selection:party.party,type_document:"
+msgid ""
+msgstr ""
+
+msgctxt "selection:party.party,type_document:"
+msgid "Cedula"
+msgstr ""
+
+msgctxt "selection:party.party,type_document:"
+msgid "Consumidor Final"
+msgstr ""
+
+msgctxt "selection:party.party,type_document:"
+msgid "Pasaporte"
+msgstr ""
+
+msgctxt "selection:party.party,type_document:"
+msgid "RUC"
+msgstr ""
+
+msgctxt "view:party.party:"
+msgid "VAT"
+msgstr "CI/RUC"
