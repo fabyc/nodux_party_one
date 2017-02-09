@@ -13,7 +13,7 @@ __metaclass__ = PoolMeta
 class Party:
     __name__ = 'party.party'
 
-    commercial_name = fields.Char('Commercial Name')
+    commercial_name = fields.Char('Commercial Name', size=100)
     supplier = fields.Boolean('Supplier')
     customer = fields.Boolean('Customer')
     type_document = fields.Selection([
@@ -37,6 +37,8 @@ class Party:
         ]
         cls.vat_number.states['readonly'] |= Eval('type_document') == '07'
         cls.vat_number.depends.append('type_document')
+        cls.vat_number.size = 13
+        cls.name.size = 100
 
     @staticmethod
     def default_type_document():
@@ -77,6 +79,14 @@ class Party:
             if party.type_document == '04' and bool(party.vat_number):
                 super(Party, cls).validate(parties)
 
+    @fields.depends('vat_number')
+    def on_change_vat_number(self):
+        res = {}
+        if self.vat_number:
+            vat_number = self.vat_number.replace(" ", "").replace(".","")
+            res['vat_number'] = vat_number
+        return res
+
     def pre_validate(self):
         if self.type_document == '':
             pass
@@ -87,7 +97,7 @@ class Party:
                 return
             if self.vat_number == '9999999999999':
                 return
-            vat_number = self.vat_number.replace(".", "")
+            vat_number = self.vat_number.replace(".", "").replace(" ", "")
             if vat_number.isdigit() and len(vat_number) > 9:
                 is_valid = self.compute_check_digit(vat_number)
                 if is_valid:
