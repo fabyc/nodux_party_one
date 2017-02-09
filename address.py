@@ -1,6 +1,8 @@
+#! -*- coding: utf8 -*-
+
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
-#! -*- coding: utf8 -*-
+
 from trytond.pool import *
 from trytond.model import fields
 from trytond.pyson import Eval
@@ -13,6 +15,12 @@ __metaclass__ = PoolMeta
 
 class Address:
     __name__ = 'party.address'
+
+    @classmethod
+    def __setup__(cls):
+        super(Address, cls).__setup__()
+        cls.street.size = 70
+        cls.city.size = 50
 
     @staticmethod
     def default_country():
