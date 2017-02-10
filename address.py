@@ -1,8 +1,5 @@
 #! -*- coding: utf8 -*-
 
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
-
 from trytond.pool import *
 from trytond.model import fields
 from trytond.pyson import Eval
@@ -25,6 +22,26 @@ class Address:
     @staticmethod
     def default_country():
         return Id('country', 'ec').pyson()
+
+    @fields.depends('street')
+    def on_change_street(self):
+        res = {}
+        cont = 0
+        if self.street:
+            street = self.street.strip()
+            street = street.replace("\n","")
+            res['street'] = street
+        return res
+
+    @fields.depends('city')
+    def on_change_city(self):
+        res = {}
+        cont = 0
+        if self.city:
+            city = self.city.strip()
+            city = city.replace("\n","")
+            res['city'] = city
+        return res
 
     @staticmethod
     def default_street():

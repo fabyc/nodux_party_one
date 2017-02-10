@@ -1,6 +1,5 @@
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
 #! -*- coding: utf8 -*-
+
 from trytond.pool import *
 from trytond.model import fields
 from trytond.pyson import Eval
@@ -85,6 +84,16 @@ class Party:
         if self.vat_number:
             vat_number = self.vat_number.replace(" ", "").replace(".","")
             res['vat_number'] = vat_number
+        return res
+
+    @fields.depends('name')
+    def on_change_name(self):
+        res = {}
+        cont = 0
+        if self.name:
+            name = self.name.strip()
+            name = name.replace("\n","")
+            res['name'] = name
         return res
 
     def pre_validate(self):
