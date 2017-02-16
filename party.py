@@ -39,6 +39,15 @@ class Party:
         cls.vat_number.size = 13
         cls.name.size = 100
 
+    @classmethod
+    def delete(cls, parties):
+        for party in parties:
+            if party.customer == True:
+                cls.raise_user_error('No puede eliminar al cliente\n%s', (party.name))
+            if party.supplier == True:
+                cls.raise_user_error('No puede eliminar al proveedor\n%s', (party.name))
+        super(Party, cls).delete(parties)
+
     @staticmethod
     def default_type_document():
         return '05'
