@@ -38,10 +38,10 @@ this repository contains the full copyright notices and license terms. -->
         expr="/form/notebook/page[@id='accounting']/label[@name='vat_country']"
         position="replace">
     </xpath-->
-    <xpath
-        expr="/form/notebook/page[@id='accounting']"
+    <!--xpath
+        expr="/form/notebook/page[@id='identifiers']"
         position="replace">
-    </xpath>
+    </xpath-->
     <xpath
         expr="/form/field[@name='code']"
         position="after">

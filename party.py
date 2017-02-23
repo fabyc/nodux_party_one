@@ -1,21 +1,25 @@
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
 #! -*- coding: utf8 -*-
+
 from trytond.pool import *
-from trytond.model import fields
+from trytond.model import ModelView, ModelSQL, fields, Unique
 from trytond.pyson import Eval
 from trytond.pyson import Id
 from trytond.pyson import Bool, Eval
 
-__all__ = ['Party', 'Company']
-__metaclass__ = PoolMeta
+__all__ = ['Party']
+
 
 class Party:
     __name__ = 'party.party'
+    __metaclass__ = PoolMeta
 
-    commercial_name = fields.Char('Commercial Name')
+    commercial_name = fields.Char('Commercial Name', size=100)
     supplier = fields.Boolean('Supplier')
     customer = fields.Boolean('Customer')
+    vat_number = fields.Char('VAT Number', size=13, states={
+            'readonly': Eval('type_document') == '07',
+            },
+        depends=['active', 'type_document'])
     type_document = fields.Selection([
                 ('', ''),
                 ('04', 'RUC'),
@@ -31,12 +35,21 @@ class Party:
         super(Party, cls).__setup__()
         cls._error_messages.update({
                 'invalid_vat_number': ('Invalid VAT Number "%s".')})
-        cls._sql_constraints += [
-            ('vat_number', 'UNIQUE(vat_number)',
-                'VAT Number already exists!'),
+        t = cls.__table__()
+        cls._sql_constraints = [
+            ('VAT NUMBER', Unique(t, t.vat_number),
+             'VAT Number already exists!')
         ]
-        cls.vat_number.states['readonly'] |= Eval('type_document') == '07'
-        cls.vat_number.depends.append('type_document')
+        cls.name.size = 100
+
+    @classmethod
+    def delete(cls, parties):
+        for party in parties:
+            if party.customer == True:
+                cls.raise_user_error('No puede eliminar al cliente\n%s', (party.name))
+            if party.supplier == True:
+                cls.raise_user_error('No puede eliminar al proveedor\n%s', (party.name))
+        super(Party, cls).delete(parties)
 
     @staticmethod
     def default_type_document():
@@ -52,15 +65,13 @@ class Party:
 
     @fields.depends('type_document', 'vat_number')
     def on_change_type_document(self):
-        res = {}
         if self.type_document == '07':
-            res ['vat_number']= '9999999999999'
+            self.vat_number= '9999999999999'
         else:
             if self.vat_number:
-                res ['vat_number']= self.vat_number
+                self.vat_number= self.vat_number
             else:
-                res ['vat_number']= ''
-        return res
+                self.vat_number= ''
 
     @classmethod
     def search_rec_name(cls, name, clause):
@@ -77,6 +88,19 @@ class Party:
             if party.type_document == '04' and bool(party.vat_number):
                 super(Party, cls).validate(parties)
 
+    @fields.depends('vat_number')
+    def on_change_vat_number(self):
+        if self.vat_number:
+            vat_number = self.vat_number.replace(" ", "").replace(".","")
+            self.vat_number = vat_number
+
+    @fields.depends('name')
+    def on_change_name(self):
+        if self.name:
+            name = self.name.strip()
+            name = name.replace("\n","")
+            self.name = name
+
     def pre_validate(self):
         if self.type_document == '':
             pass
@@ -87,7 +111,7 @@ class Party:
                 return
             if self.vat_number == '9999999999999':
                 return
-            vat_number = self.vat_number.replace(".", "")
+            vat_number = self.vat_number.replace(".", "").replace(" ", "")
             if vat_number.isdigit() and len(vat_number) > 9:
                 is_valid = self.compute_check_digit(vat_number)
                 if is_valid:
@@ -182,16 +206,3 @@ class Party:
             else:
                 value = 10 - (x % 10)
             return (set_check_digit == str(value))
-
-class Company:
-    __name__ = 'company.company'
-
-    @classmethod
-    def default_currency(cls):
-        Currency = Pool().get('currency.currency')
-        usd= Currency.search([('code','=','USD')])
-        return usd[0].id
-
-    @staticmethod
-    def default_timezone():
-        return 'America/Guayaquil'

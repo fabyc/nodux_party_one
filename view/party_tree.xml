@@ -9,4 +9,7 @@ this repository contains the full copyright notices and license terms. -->
         <field name="customer" tree_invisible="1"/>
     </xpath>
 
+    <xpath expr="/tree/field[@name='lang']" position="replace">
+    </xpath>
+
 </data>

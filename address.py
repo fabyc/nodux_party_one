@@ -1,5 +1,3 @@
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
 #! -*- coding: utf8 -*-
 from trytond.pool import *
 from trytond.model import fields
@@ -9,14 +7,35 @@ from trytond.pyson import Bool, Eval
 from trytond.transaction import Transaction
 
 __all__ = ['Address']
-__metaclass__ = PoolMeta
+
 
 class Address:
     __name__ = 'party.address'
+    __metaclass__ = PoolMeta
+    
+    @classmethod
+    def __setup__(cls):
+        super(Address, cls).__setup__()
+        cls.street.size = 70
+        cls.city.size = 50
 
     @staticmethod
     def default_country():
         return Id('country', 'ec').pyson()
+
+    @fields.depends('street')
+    def on_change_street(self):
+        if self.street:
+            street = self.street.strip()
+            street = street.replace("\n","")
+            self.street = street
+
+    @fields.depends('city')
+    def on_change_city(self):
+        if self.city:
+            city = self.city.strip()
+            city = city.replace("\n","")
+            self.city = city
 
     @staticmethod
     def default_street():

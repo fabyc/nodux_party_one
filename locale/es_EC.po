@@ -26,6 +26,30 @@ msgctxt "field:party.party,type_document:"
 msgid "Type Document"
 msgstr "Tipo de documento"
 
+msgctxt "model:ir.action,name:act_customer_form"
+msgid "Customer"
+msgstr "Clientes"
+
+msgctxt "model:ir.action,name:act_supplier_form"
+msgid "Supplier"
+msgstr "Proveedores"
+
+msgctxt "model:ir.action.act_window.domain,name:act_customer_form_domain_all"
+msgid "Customer"
+msgstr "Clientes"
+
+msgctxt "model:ir.action.act_window.domain,name:act_supplier_form_domain_all"
+msgid "Supplier"
+msgstr "Proveedores"
+
+msgctxt "model:ir.ui.menu,name:menu_customer"
+msgid "Customer"
+msgstr "Clientes"
+
+msgctxt "model:ir.ui.menu,name:menu_supplier"
+msgid "Supplier"
+msgstr "Proveedores"
+
 msgctxt "selection:party.party,type_document:"
 msgid ""
 msgstr ""
@@ -44,6 +68,10 @@ msgstr ""
 
 msgctxt "selection:party.party,type_document:"
 msgid "RUC"
+msgstr ""
+
+msgctxt "view:company.company:"
+msgid "Logo"
 msgstr ""
 
 msgctxt "view:party.party:"
