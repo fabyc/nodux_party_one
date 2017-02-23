@@ -17,31 +17,6 @@ this repository contains the full copyright notices and license terms. -->
         <newline/>
     </xpath>
 
-    <!--xpath
-        expr="/form/notebook/page[@id='accounting']/separator[@id='vat']"
-        position="replace">
-    </xpath>
-    <xpath
-        expr="/form/notebook/page[@id='accounting']/field[@name='vat_number']"
-        position="replace">
-    </xpath>
-
-    <xpath
-        expr="/form/notebook/page[@id='accounting']/label[@name='vat_number']"
-        position="replace">
-    </xpath>
-    <xpath
-        expr="/form/notebook/page[@id='accounting']/field[@name='vat_country']"
-        position="replace">
-    </xpath>
-    <xpath
-        expr="/form/notebook/page[@id='accounting']/label[@name='vat_country']"
-        position="replace">
-    </xpath-->
-    <!--xpath
-        expr="/form/notebook/page[@id='identifiers']"
-        position="replace">
-    </xpath-->
     <xpath
         expr="/form/field[@name='code']"
         position="after">
@@ -54,4 +29,8 @@ this repository contains the full copyright notices and license terms. -->
         <newline/>
     </xpath>
 
+    <xpath
+        expr="/form/notebook/page[@name='identifiers']"
+        position="replace">
+    </xpath>
 </data>
