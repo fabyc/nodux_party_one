@@ -12,4 +12,8 @@ this repository contains the full copyright notices and license terms. -->
     <xpath expr="/tree/field[@name='lang']" position="replace">
     </xpath>
 
+    <xpath expr="/tree/field[@name='vat_code']" position="replace">
+        <field name="vat_number"/>
+    </xpath>
+
 </data>
